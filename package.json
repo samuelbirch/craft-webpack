@@ -9,6 +9,15 @@
     "start": "webpack-dev-server --config config/webpack.config.dev.js --watch",
     "build": "webpack -p --config config/webpack.config.prod.js --progress --display-error-details --color"
   },
+  "babel": {
+	  "presets": [
+	    "latest"
+	  ],
+	  "plugins": [
+	    "babel-plugin-transform-class-properties",
+	    "babel-plugin-transform-object-rest-spread"
+	  ]
+	},
   "dependencies": {
     "babel-polyfill": "^6.20.0",
     "bootstrap": "4"
