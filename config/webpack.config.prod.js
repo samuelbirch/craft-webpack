@@ -2,6 +2,7 @@ const path = require('path');
 const webpackMerge = require('webpack-merge');
 const autoprefixer = require('autoprefixer');
 const webpackCommon = require('./webpack.config');
+const Indexer = require('../src/js/modules/indexer');
 
 // webpack plugins
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -70,6 +71,12 @@ module.exports = webpackMerge(webpackCommon, {
         minifyURLs: true
       }*/
     }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      template: 'html/layouts/_index.ejs',
+      filename: 'layouts/index.html',
+    }),
+    new Indexer(),
     //new DedupePlugin(),
     new CleanWebpackPlugin(['html/assets/js', 'html/assets/css'], {
       root: path.resolve(__dirname, '..'),
@@ -81,7 +88,6 @@ module.exports = webpackMerge(webpackCommon, {
       }
     }),
     new ExtractTextPlugin('assets/css/[name]-[chunkhash].css'),
-    new ExtractTextPlugin('assets/css/[name].css'),
     new UglifyJsPlugin({
       compressor: {
         screw_ie8: true,
