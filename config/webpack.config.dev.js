@@ -11,6 +11,7 @@ const env = require('./env');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const DefinePlugin = require('webpack/lib/DefinePlugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const HtmlWebpackHarddiskPlugin = require('html-webpack-harddisk-plugin');
 
 module.exports = webpackMerge(webpackCommon, {
 
@@ -59,27 +60,6 @@ module.exports = webpackMerge(webpackCommon, {
 	          }
 	        ]
 		})
-        /*use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              importLoaders: 2,
-              modules: true,
-              localIdentName: '[name]__[local]'
-            }
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              outputStyle: 'expanded',
-              sourceMap: true,
-              sourceMapContents: true
-            }
-          }
-        ]*/
       }
     ]
 
@@ -93,8 +73,17 @@ module.exports = webpackMerge(webpackCommon, {
     }),
     new HtmlWebpackPlugin({
       inject: false,
-      template: path.resolve(__dirname, '../html/layouts/index.html')
+      template: 'html/templates/layout.ejs',
+      filename: 'templates/layout.twig',
+      alwaysWriteToDisk: true
     }),
+    new HtmlWebpackPlugin({
+      inject: false,
+      template: 'html/layouts/_index.ejs',
+      filename: 'layouts/index.html',
+      alwaysWriteToDisk: true
+    }),
+    new HtmlWebpackHarddiskPlugin(),
     new ExtractTextPlugin('assets/css/[name].css'),
     new LoaderOptionsPlugin({
       options: {
@@ -112,6 +101,9 @@ module.exports = webpackMerge(webpackCommon, {
   devServer: {
     host: env.devServer.host || 'localhost',
     port: env.devServer.port || 3000,
+    contentBase: './html',
+    //public: 'turf.ots.dev:80',
+    compress: true,
     open: true,
     historyApiFallback: true,
     watchOptions: {

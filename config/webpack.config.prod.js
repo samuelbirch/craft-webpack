@@ -12,6 +12,7 @@ const UglifyJsPlugin = require('webpack/lib/optimize/UglifyJsPlugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
+const ManifestPlugin = require('webpack-manifest-plugin');
 
 module.exports = webpackMerge(webpackCommon, {
 
@@ -34,19 +35,33 @@ module.exports = webpackMerge(webpackCommon, {
 
   module: {
 
-    // TODO: use webpack old syntax to compatible with ExtractTextPlugin
-    // https://github.com/webpack/extract-text-webpack-plugin/issues/275
     rules: [
       {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: [
-            'css-loader?minimize&sourceMap&importLoaders=2',
-            'postcss-loader',
-            'sass-loader?outputStyle=expanded&sourceMap&sourceMapContents'
-          ]
-        })
+        use: ExtractTextPlugin.extract({
+			//fallbackLoader: 'style-loader',
+			use: [
+	          {
+	            loader: 'css-loader',
+	            options: {
+	              importLoaders: 2,
+	              modules: false,
+	              //localIdentName: '[name]__[local]'
+	            }
+	          },
+	          {
+		          loader: 'postcss-loader'
+	          },
+	          {
+	            loader: 'sass-loader',
+	            options: {
+	              outputStyle: 'expanded',
+	              sourceMap: true,
+	              sourceMapContents: true
+	            }
+	          }
+	        ]
+		})
       }
     ]
 
@@ -112,7 +127,8 @@ module.exports = webpackMerge(webpackCommon, {
           return [autoprefixer];
         }
       }
-    })
+    }),
+    new ManifestPlugin()
   ]
 
 });

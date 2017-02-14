@@ -18,7 +18,7 @@ Indexer.prototype.apply = function(compiler){
 			    var results = []
 			    var list = fs.readdirSync(dir)
 			    list.forEach(function(file) {
-				    if(!file.startsWith('_')){
+				    if(!file.startsWith('_') || !file.startsWith('.')){
 				        file = dir + '/' + file
 				        var stat = fs.statSync(file)
 				        if (stat && stat.isDirectory()) results = results.concat(walk(file))
@@ -51,7 +51,7 @@ Indexer.prototype.apply = function(compiler){
 			})
 			
 			htmlPluginData.plugin.options.index = index;
-			console.log(htmlPluginData);
+			//console.log(htmlPluginData);
 			
 			callback(null, htmlPluginData);
 			

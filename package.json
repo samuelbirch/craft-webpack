@@ -6,21 +6,24 @@
   "author": "Samuel Birch <sam@madebyjam.com>",
   "license": "MIT",
   "scripts": {
-    "start": "webpack-dev-server --config config/webpack.config.dev.js --watch",
+    "start": "webpack --config config/webpack.config.dev.js --watch",
     "build": "webpack -p --config config/webpack.config.prod.js --progress --display-error-details --color"
   },
   "babel": {
-	  "presets": [
-	    "latest"
-	  ],
-	  "plugins": [
-	    "babel-plugin-transform-class-properties",
-	    "babel-plugin-transform-object-rest-spread"
-	  ]
-	},
+    "presets": [
+      "latest"
+    ],
+    "plugins": [
+      "babel-plugin-transform-class-properties",
+      "babel-plugin-transform-object-rest-spread"
+    ]
+  },
   "dependencies": {
     "babel-polyfill": "^6.20.0",
-    "bootstrap": "4"
+    "bootstrap": "4",
+    "html-webpack-harddisk-plugin": "^0.1.0",
+    "loadjs": "^3.3.1",
+    "webpack-manifest-plugin": "^1.1.0"
   },
   "devDependencies": {
     "autoprefixer": "^6.6.0",
